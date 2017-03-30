@@ -8,7 +8,14 @@
 ## 版本下载：
 [V1.0](https://github.com/Xiphoray/workingmusic/releases/download/V1.0/workingmusic.V1.0.exe)
 
+[V1.1](https://github.com/Xiphoray/workingmusic/releases/download/V1.1/workingmusic.V1.1.exe)
+
 ***
+
+### 2017.3.30
+### 版本v1.1发布
+* 增加最小化至托盘的功能
+* 优化退出细节
 
 ### 2017.3.29
 ### 版本v1.0发布
