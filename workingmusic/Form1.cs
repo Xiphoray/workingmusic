@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace workingmusic
@@ -23,6 +16,7 @@ namespace workingmusic
             work_show();
             button1.Hide();
             play();
+            workingflag = true;
         }
         public void play()
         {
@@ -40,6 +34,7 @@ namespace workingmusic
             thunder.Ctlcontrols.stop();
 
         }
+        public static bool workingflag = false;
         public void init()
         {
             fire.URL = Define.MisPath + "fire.mp4";
@@ -50,6 +45,7 @@ namespace workingmusic
             people.settings.setMode("loop", true);
             rain.settings.setMode("loop", true);
             thunder.settings.setMode("loop", true);
+            workingflag = false;
         }
         
         public void work_show()
@@ -91,6 +87,7 @@ namespace workingmusic
             Play_Hide();
             button1.Show();
             display();
+            workingflag = false;
         }
 
         public void Play_Hide()
@@ -104,6 +101,75 @@ namespace workingmusic
             label3.Hide();
             label4.Hide();
             button2.Hide();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (workingflag == true)
+            {
+                //窗体关闭原因为单击"关闭"按钮或Alt+F4
+                if (e.CloseReason == CloseReason.UserClosing)
+                {
+                    e.Cancel = true;           //取消关闭操作 表现为不关闭窗体
+                    notifyIcon1.Visible = true;   //设置图标可见
+                    this.Hide();               //隐藏窗体
+                    MessageBox.Show("WM已被你打入冷宫", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                //点击"是(YES)"退出程序
+                if (MessageBox.Show("确定要离开?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    notifyIcon1.Visible = false;   //设置图标不可见
+                    this.Dispose();                //释放资源
+                    Application.Exit();            //关闭应用程序窗体
+                }
+                else
+                {
+                    e.Cancel = true;           //取消关闭操作 表现为不关闭窗体
+                }
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //双击鼠标"左键"发生
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Visible = true;                        //窗体可见
+                this.WindowState = FormWindowState.Normal;  //窗体默认大小
+                this.notifyIcon1.Visible = true;            //设置图标可见
+            }
+        }
+
+        private void 设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();                                //窗体显示
+            this.WindowState = FormWindowState.Normal;  //窗体状态默认大小
+            this.Activate();                            //激活窗体给予焦点
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //点击"是(YES)"退出程序
+            if (MessageBox.Show("确定要离开?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+            {
+                notifyIcon1.Visible = false;   //设置图标不可见
+                this.Dispose();                //释放资源
+                Application.Exit();            //关闭应用程序窗体
+            }
+        }
+
+        private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Play_Hide();
+            button1.Show();
+            display();
+            workingflag = false;
+            this.Show();                                //窗体显示
+            this.WindowState = FormWindowState.Normal;  //窗体状态默认大小
+            this.Activate();                            //激活窗体给予焦点
         }
     }
     public static class Define

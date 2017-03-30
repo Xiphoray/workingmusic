@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -43,6 +44,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.fire = new AxWMPLib.AxWindowsMediaPlayer();
             this.button2 = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.暂停ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.people)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rain)).BeginInit();
@@ -51,6 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fire)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -203,6 +210,44 @@
             this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.设置ToolStripMenuItem,
+            this.暂停ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(105, 70);
+            // 
+            // 设置ToolStripMenuItem
+            // 
+            this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
+            this.设置ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.设置ToolStripMenuItem.Text = "设置";
+            this.设置ToolStripMenuItem.Click += new System.EventHandler(this.设置ToolStripMenuItem_Click);
+            // 
+            // 暂停ToolStripMenuItem
+            // 
+            this.暂停ToolStripMenuItem.Name = "暂停ToolStripMenuItem";
+            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.暂停ToolStripMenuItem.Text = "暂停";
+            this.暂停ToolStripMenuItem.Click += new System.EventHandler(this.暂停ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -222,8 +267,10 @@
             this.Controls.Add(this.people);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.people)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rain)).EndInit();
@@ -232,6 +279,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fire)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,6 +301,11 @@
         private System.Windows.Forms.Label label4;
         private AxWMPLib.AxWindowsMediaPlayer fire;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 暂停ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
     }
 }
 
