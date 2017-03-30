@@ -6,7 +6,7 @@
 ****
 
 ## 版本下载：
-[V1.0]:(https://github.com/Xiphoray/workingmusic/releases/download/V1.0/workingmusic.V1.0.exe)
+[V1.0](https://github.com/Xiphoray/workingmusic/releases/download/V1.0/workingmusic.V1.0.exe)
 
 ***
 
