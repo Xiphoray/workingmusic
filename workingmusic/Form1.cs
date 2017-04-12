@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace workingmusic
 {
@@ -41,10 +44,39 @@ namespace workingmusic
             people.URL = Define.MisPath + "people.mp4";
             rain.URL = Define.MisPath + "rain.mp4";
             thunder.URL = Define.MisPath + "thunder.mp4";
+            if (Directory.Exists(Define.DataPath) == false)
+            {
+                Directory.CreateDirectory(Define.DataPath);
+            }
+            if (!File.Exists(Define.Datafile))
+            {
+                File.WriteAllText(Define.Datafile, "<fire10> <people0> <rain0> <thunder0>");
+            }
+            string dataStr = "";
+            StreamReader reader = new StreamReader(Define.Datafile, Encoding.Default);
+            while (!reader.EndOfStream)
+            {
+                dataStr += reader.ReadLine();
+            }
+            reader.Close();
+            string fireStr = "<fire(?<fire>\\d+)> <people(?<people>\\d+)> <rain(?<rain>\\d+)> <thunder(?<thunder>\\d+)>";
+            Match TitleMatch = Regex.Match(dataStr, fireStr, RegexOptions.IgnoreCase);
+
+            int fires = int.Parse(TitleMatch.Groups["fire"].Value), 
+                peos = int.Parse(TitleMatch.Groups["people"].Value),
+                rais = int.Parse(TitleMatch.Groups["rain"].Value),
+                thus = int.Parse(TitleMatch.Groups["thunder"].Value);
+
             fire.settings.setMode("loop", true);
             people.settings.setMode("loop", true);
             rain.settings.setMode("loop", true);
             thunder.settings.setMode("loop", true);
+            fire.settings.volume = trackBar1.Value = fires;
+            people.settings.volume = trackBar2.Value = peos;
+            rain.settings.volume = trackBar4.Value = rais;
+            thunder.settings.volume = trackBar3.Value = thus;
+
+            
             workingflag = false;
         }
         
@@ -90,6 +122,14 @@ namespace workingmusic
             workingflag = false;
         }
 
+        public void savedata()
+        {
+            
+            StreamWriter writer = new StreamWriter(Define.Datafile, false, Encoding.Default);
+            writer.WriteLine("<fire{0}> <people{1}> <rain{2}> <thunder{3}>", trackBar1.Value, trackBar2.Value, trackBar4.Value, trackBar3.Value);
+            writer.Close();
+        }
+
         public void Play_Hide()
         {
             trackBar1.Hide();
@@ -121,6 +161,7 @@ namespace workingmusic
                 //点击"是(YES)"退出程序
                 if (MessageBox.Show("确定要离开?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
                 {
+                    savedata();
                     notifyIcon1.Visible = false;   //设置图标不可见
                     this.Dispose();                //释放资源
                     Application.Exit();            //关闭应用程序窗体
@@ -155,6 +196,7 @@ namespace workingmusic
             //点击"是(YES)"退出程序
             if (MessageBox.Show("确定要离开?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
             {
+                savedata();
                 notifyIcon1.Visible = false;   //设置图标不可见
                 this.Dispose();                //释放资源
                 Application.Exit();            //关闭应用程序窗体
@@ -175,6 +217,7 @@ namespace workingmusic
     public static class Define
     {
         public static string MisPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"music\";
-
+        public static string DataPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"data"; 
+        public static string Datafile = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"data\data.txt";
     }
 }
