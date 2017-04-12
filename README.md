@@ -6,11 +6,21 @@
 ****
 
 ## 版本下载：
-[V1.0](https://github.com/Xiphoray/workingmusic/releases/download/V1.0/workingmusic.V1.0.exe)
+
+[V2.0](https://github.com/Xiphoray/workingmusic/releases/download/V2.0/workingmusic.V2.0.exe)
 
 [V1.1](https://github.com/Xiphoray/workingmusic/releases/download/V1.1/workingmusic.V1.1.exe)
 
+[V1.0](https://github.com/Xiphoray/workingmusic/releases/download/V1.0/workingmusic.V1.0.exe)
+
+
+
 ***
+
+### 2017.4.12
+#### 版本v2.0发布
+* 修复已知bug
+* 新增声音调节保存（下一次打开时会恢复上一次关闭时的音量）
 
 ### 2017.3.30
 #### 版本v1.1发布
