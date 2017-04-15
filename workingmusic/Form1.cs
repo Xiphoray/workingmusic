@@ -27,6 +27,11 @@ namespace workingmusic
             people.Ctlcontrols.play();
             rain.Ctlcontrols.play();
             thunder.Ctlcontrols.play();
+            thunder.settings.volume = trackBar3.Value;
+            rain.settings.volume = trackBar4.Value;
+            fire.settings.volume = trackBar1.Value;
+            people.settings.volume = trackBar2.Value;
+
 
         }
         public void display()
@@ -75,8 +80,6 @@ namespace workingmusic
             people.settings.volume = trackBar2.Value = peos;
             rain.settings.volume = trackBar4.Value = rais;
             thunder.settings.volume = trackBar3.Value = thus;
-
-            
             workingflag = false;
         }
         
@@ -96,7 +99,6 @@ namespace workingmusic
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             thunder.settings.volume = trackBar3.Value;
-
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -116,10 +118,15 @@ namespace workingmusic
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Play_Hide();
-            button1.Show();
-            display();
-            workingflag = false;
+            if (fire.settings.volume > 20 || rain.settings.volume > 20 || people.settings.volume > 20 || thunder.settings.volume > 20)
+            {
+                timer1.Interval = 3;
+            }
+            else
+            {
+                timer1.Interval = 50;
+            }
+            timer1.Start();
         }
 
         public void savedata()
@@ -197,21 +204,87 @@ namespace workingmusic
             if (MessageBox.Show("确定要离开?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
             {
                 savedata();
-                notifyIcon1.Visible = false;   //设置图标不可见
-                this.Dispose();                //释放资源
-                Application.Exit();            //关闭应用程序窗体
+                if (fire.settings.volume > 20 || rain.settings.volume > 20 || people.settings.volume > 20 || thunder.settings.volume > 20)
+                {
+                    timer2.Interval = 3;
+                }
+                else
+                {
+                    timer2.Interval = 50;
+                }
+                timer2.Start();
             }
         }
 
         private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Play_Hide();
-            button1.Show();
-            display();
-            workingflag = false;
-            this.Show();                                //窗体显示
-            this.WindowState = FormWindowState.Normal;  //窗体状态默认大小
-            this.Activate();                            //激活窗体给予焦点
+            if (fire.settings.volume > 20 || rain.settings.volume > 20 || people.settings.volume > 20 || thunder.settings.volume > 20 )
+            {
+                timer1.Interval = 3;
+            }
+            else
+            {
+                timer1.Interval = 50;
+            }
+                timer1.Start();          
+        }
+       
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (fire.settings.volume != 0)
+            {
+                fire.settings.volume--;
+            }
+            if (rain.settings.volume != 0)
+            {
+                rain.settings.volume--;
+            }
+            if (people.settings.volume != 0)
+            {
+                people.settings.volume--;
+            }
+            if (thunder.settings.volume != 0)
+            {
+                thunder.settings.volume--;
+            }
+            if(fire.settings.volume == 0 && rain.settings.volume == 0 && people.settings.volume == 0 && thunder.settings.volume == 0)
+            {
+                timer1.Stop();
+                Play_Hide();
+                button1.Show();
+                workingflag = false;
+                display();
+                this.Show();                                //窗体显示
+                this.WindowState = FormWindowState.Normal;  //窗体状态默认大小
+                this.Activate();                            //激活窗体给予焦点
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (fire.settings.volume != 0)
+            {
+                fire.settings.volume--;
+            }
+            if (rain.settings.volume != 0)
+            {
+                rain.settings.volume--;
+            }
+            if (people.settings.volume != 0)
+            {
+                people.settings.volume--;
+            }
+            if (thunder.settings.volume != 0)
+            {
+                thunder.settings.volume--;
+            }
+            if (fire.settings.volume == 0 && rain.settings.volume == 0 && people.settings.volume == 0 && thunder.settings.volume == 0)
+            {
+                timer2.Stop();
+                notifyIcon1.Visible = false;   //设置图标不可见
+                this.Dispose();                //释放资源
+                Application.Exit();            //关闭应用程序窗体
+            }
         }
     }
     public static class Define
