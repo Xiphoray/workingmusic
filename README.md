@@ -3,6 +3,8 @@
 
 自己写的一个win版的白噪音软件，方便工作学习时使用。
 
+[安卓版传输门](https://github.com/Xiphoray/Workingmusic-App)
+
 ****
 
 ## 版本下载：
