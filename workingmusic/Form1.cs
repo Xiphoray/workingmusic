@@ -16,6 +16,7 @@ namespace workingmusic
 
         private void button1_Click(object sender, EventArgs e)
         {
+            BeginTiming();       // 依所选模式启动计时
             work_show();
             button1.Hide();
             play();
@@ -43,6 +44,117 @@ namespace workingmusic
 
         }
         public static bool workingflag = false;
+
+        // ---- 计时相关状态 ----
+        private bool stopwatchMode;          // true=正向计时；false=倒计时
+        private DateTime sessionStart;       // 正向计时：本次会话起点
+        private DateTime countdownEnd;       // 倒计时：目标结束时刻
+
+        // 依据当前选择的模式启动计时，隐藏配置面板、显示大时钟
+        private void BeginTiming()
+        {
+            stopwatchMode = radioStopwatch.Checked;
+            panelTimerConfig.Hide();
+            labelTimer.Show();
+            if (stopwatchMode)
+            {
+                sessionStart = DateTime.Now;          // 正向计时：从 0 累计
+                labelTimer.Text = "00:00";
+            }
+            else
+            {
+                countdownEnd = DateTime.Now.AddMinutes((double)numMinutes.Value); // 倒计时：算好目标时刻，避免节拍器累计漂移
+                labelTimer.Text = FormatSeconds((int)numMinutes.Value * 60);
+            }
+            timer3.Start();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            if (stopwatchMode)
+            {
+                int sec = (int)(DateTime.Now - sessionStart).TotalSeconds;
+                labelTimer.Text = FormatSeconds(sec);
+            }
+            else
+            {
+                int remain = (int)Math.Ceiling((countdownEnd - DateTime.Now).TotalSeconds);
+                if (remain <= 0)
+                {
+                    timer3.Stop();
+                    labelTimer.Text = "00:00";
+                    CountdownFinished();
+                    return;
+                }
+                labelTimer.Text = FormatSeconds(remain);
+            }
+        }
+
+        // 倒计时归零：响铃提醒 + 声音自动淡出停止（复用现有淡出逻辑）
+        private void CountdownFinished()
+        {
+            System.Media.SystemSounds.Asterisk.Play();
+            StartFade();
+            MessageBox.Show("时间到啦！白噪音已经自动停止。" + Environment.NewLine +
+                "选好模式与时长，再点「开始」再来一轮吧。",
+                "倒计时结束", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // 计时会话结束/复位：停表、隐藏时钟、回到模式选择面板
+        private void ResetTimerUI()
+        {
+            timer3.Stop();
+            labelTimer.Hide();
+            labelTimer.Text = "";
+            panelTimerConfig.Show();
+        }
+
+        // 声音淡出启动（「结束」/托盘「暂停」/倒计时归零共用）
+        private void StartFade()
+        {
+            if (fire.settings.volume > 20 || rain.settings.volume > 20 ||
+                people.settings.volume > 20 || thunder.settings.volume > 20)
+            {
+                timer1.Interval = 3;
+            }
+            else
+            {
+                timer1.Interval = 50;
+            }
+            timer1.Start();
+        }
+
+        private static string FormatSeconds(int s)
+        {
+            if (s >= 3600)
+            {
+                return string.Format("{0}:{1:00}:{2:00}", s / 3600, (s % 3600) / 60, s % 60);
+            }
+            return string.Format("{0:00}:{1:00}", s / 60, s % 60);
+        }
+
+        // 模式切换：只有倒计时模式才需要显示时长预设与自定义输入
+        private void radio_CheckedChanged(object sender, EventArgs e)
+        {
+            bool countdown = radioCountdown.Checked;
+            labelDuration.Visible = countdown;
+            btn25.Visible = countdown;
+            btn45.Visible = countdown;
+            btn60.Visible = countdown;
+            btn90.Visible = countdown;
+            numMinutes.Visible = countdown;
+            labelMin.Visible = countdown;
+            labelNote.Text = countdown
+                ? "选好时长后点「开始」开启倒计时，归零自动停止白噪音"
+                : "点「开始」开启正向计时，需要结束时点「结束」";
+        }
+
+        // 预设时长按钮：把分钟数写入自定义输入框
+        private void presetButton_Click(object sender, EventArgs e)
+        {
+            numMinutes.Value = Convert.ToInt32(((Button)sender).Tag);
+        }
+
         public void init()
         {
             fire.URL = Define.MisPath + "fire.mp4";
@@ -118,15 +230,7 @@ namespace workingmusic
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (fire.settings.volume > 20 || rain.settings.volume > 20 || people.settings.volume > 20 || thunder.settings.volume > 20)
-            {
-                timer1.Interval = 3;
-            }
-            else
-            {
-                timer1.Interval = 50;
-            }
-            timer1.Start();
+            StartFade();
         }
 
         public void savedata()
@@ -218,15 +322,7 @@ namespace workingmusic
 
         private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (fire.settings.volume > 20 || rain.settings.volume > 20 || people.settings.volume > 20 || thunder.settings.volume > 20 )
-            {
-                timer1.Interval = 3;
-            }
-            else
-            {
-                timer1.Interval = 50;
-            }
-                timer1.Start();          
+            StartFade();
         }
        
         private void timer1_Tick(object sender, EventArgs e)
@@ -254,6 +350,7 @@ namespace workingmusic
                 button1.Show();
                 workingflag = false;
                 display();
+                ResetTimerUI();                         //计时会话结束：回到模式选择面板
                 this.Show();                                //窗体显示
                 this.WindowState = FormWindowState.Normal;  //窗体状态默认大小
                 this.Activate();                            //激活窗体给予焦点

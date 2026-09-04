@@ -51,6 +51,21 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.panelTimerConfig = new System.Windows.Forms.Panel();
+            this.radioCountdown = new System.Windows.Forms.RadioButton();
+            this.radioStopwatch = new System.Windows.Forms.RadioButton();
+            this.labelDuration = new System.Windows.Forms.Label();
+            this.btn25 = new System.Windows.Forms.Button();
+            this.btn45 = new System.Windows.Forms.Button();
+            this.btn60 = new System.Windows.Forms.Button();
+            this.btn90 = new System.Windows.Forms.Button();
+            this.numMinutes = new System.Windows.Forms.NumericUpDown();
+            this.labelMin = new System.Windows.Forms.Label();
+            this.labelNote = new System.Windows.Forms.Label();
+            this.labelTimer = new System.Windows.Forms.Label();
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.panelTimerConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.people)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rain)).BeginInit();
@@ -69,7 +84,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "工作啦";
+            this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -207,7 +222,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 15;
-            this.button2.Text = "去玩啦";
+            this.button2.Text = "结束";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -260,7 +275,170 @@
             // 
             this.timer2.Interval = 6;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
+            //
+            // labelTimer
+            //
+            this.labelTimer.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold);
+            this.labelTimer.Location = new System.Drawing.Point(0, 2);
+            this.labelTimer.Name = "labelTimer";
+            this.labelTimer.Size = new System.Drawing.Size(484, 42);
+            this.labelTimer.TabIndex = 31;
+            this.labelTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelTimer.Visible = false;
+            //
+            // panelTimerConfig
+            //
+            this.panelTimerConfig.Controls.Add(this.labelNote);
+            this.panelTimerConfig.Controls.Add(this.labelMin);
+            this.panelTimerConfig.Controls.Add(this.numMinutes);
+            this.panelTimerConfig.Controls.Add(this.btn90);
+            this.panelTimerConfig.Controls.Add(this.btn60);
+            this.panelTimerConfig.Controls.Add(this.btn45);
+            this.panelTimerConfig.Controls.Add(this.btn25);
+            this.panelTimerConfig.Controls.Add(this.labelDuration);
+            this.panelTimerConfig.Controls.Add(this.radioStopwatch);
+            this.panelTimerConfig.Controls.Add(this.radioCountdown);
+            this.panelTimerConfig.Location = new System.Drawing.Point(0, 26);
+            this.panelTimerConfig.Name = "panelTimerConfig";
+            this.panelTimerConfig.Size = new System.Drawing.Size(484, 136);
+            this.panelTimerConfig.TabIndex = 30;
+            //
+            // radioCountdown
+            //
+            this.radioCountdown.Checked = true;
+            this.radioCountdown.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.radioCountdown.Location = new System.Drawing.Point(40, 4);
+            this.radioCountdown.Name = "radioCountdown";
+            this.radioCountdown.Size = new System.Drawing.Size(90, 24);
+            this.radioCountdown.TabIndex = 16;
+            this.radioCountdown.TabStop = true;
+            this.radioCountdown.Text = "倒计时";
+            this.radioCountdown.UseVisualStyleBackColor = true;
+            this.radioCountdown.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            //
+            // radioStopwatch
+            //
+            this.radioStopwatch.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.radioStopwatch.Location = new System.Drawing.Point(150, 4);
+            this.radioStopwatch.Name = "radioStopwatch";
+            this.radioStopwatch.Size = new System.Drawing.Size(120, 24);
+            this.radioStopwatch.TabIndex = 17;
+            this.radioStopwatch.TabStop = true;
+            this.radioStopwatch.Text = "正向计时";
+            this.radioStopwatch.UseVisualStyleBackColor = true;
+            this.radioStopwatch.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            //
+            // labelDuration
+            //
+            this.labelDuration.AutoSize = true;
+            this.labelDuration.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.labelDuration.Location = new System.Drawing.Point(40, 40);
+            this.labelDuration.Name = "labelDuration";
+            this.labelDuration.Size = new System.Drawing.Size(38, 17);
+            this.labelDuration.TabIndex = 18;
+            this.labelDuration.Text = "时长：";
+            //
+            // btn25
+            //
+            this.btn25.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn25.Location = new System.Drawing.Point(86, 34);
+            this.btn25.Name = "btn25";
+            this.btn25.Size = new System.Drawing.Size(48, 27);
+            this.btn25.TabIndex = 19;
+            this.btn25.Tag = 25;
+            this.btn25.Text = "25";
+            this.btn25.UseVisualStyleBackColor = true;
+            this.btn25.Click += new System.EventHandler(this.presetButton_Click);
+            //
+            // btn45
+            //
+            this.btn45.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn45.Location = new System.Drawing.Point(138, 34);
+            this.btn45.Name = "btn45";
+            this.btn45.Size = new System.Drawing.Size(48, 27);
+            this.btn45.TabIndex = 20;
+            this.btn45.Tag = 45;
+            this.btn45.Text = "45";
+            this.btn45.UseVisualStyleBackColor = true;
+            this.btn45.Click += new System.EventHandler(this.presetButton_Click);
+            //
+            // btn60
+            //
+            this.btn60.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn60.Location = new System.Drawing.Point(190, 34);
+            this.btn60.Name = "btn60";
+            this.btn60.Size = new System.Drawing.Size(48, 27);
+            this.btn60.TabIndex = 21;
+            this.btn60.Tag = 60;
+            this.btn60.Text = "60";
+            this.btn60.UseVisualStyleBackColor = true;
+            this.btn60.Click += new System.EventHandler(this.presetButton_Click);
+            //
+            // btn90
+            //
+            this.btn90.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn90.Location = new System.Drawing.Point(242, 34);
+            this.btn90.Name = "btn90";
+            this.btn90.Size = new System.Drawing.Size(48, 27);
+            this.btn90.TabIndex = 22;
+            this.btn90.Tag = 90;
+            this.btn90.Text = "90";
+            this.btn90.UseVisualStyleBackColor = true;
+            this.btn90.Click += new System.EventHandler(this.presetButton_Click);
+            //
+            // numMinutes
+            //
+            this.numMinutes.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.numMinutes.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMinutes.Location = new System.Drawing.Point(310, 36);
+            this.numMinutes.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.numMinutes.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMinutes.Name = "numMinutes";
+            this.numMinutes.Size = new System.Drawing.Size(64, 23);
+            this.numMinutes.TabIndex = 23;
+            this.numMinutes.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            //
+            // labelMin
+            //
+            this.labelMin.AutoSize = true;
+            this.labelMin.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.labelMin.Location = new System.Drawing.Point(378, 40);
+            this.labelMin.Name = "labelMin";
+            this.labelMin.Size = new System.Drawing.Size(38, 17);
+            this.labelMin.TabIndex = 24;
+            this.labelMin.Text = "分钟";
+            //
+            // labelNote
+            //
+            this.labelNote.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelNote.ForeColor = System.Drawing.Color.Gray;
+            this.labelNote.Location = new System.Drawing.Point(40, 74);
+            this.labelNote.Name = "labelNote";
+            this.labelNote.Size = new System.Drawing.Size(420, 22);
+            this.labelNote.TabIndex = 25;
+            this.labelNote.Text = "点「开始」开启倒计时，归零自动停止白噪音";
+            //
+            // timer3
+            //
+            this.timer3.Interval = 500;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            //
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -280,6 +458,8 @@
             this.Controls.Add(this.people);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.panelTimerConfig);
+            this.Controls.Add(this.labelTimer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -293,6 +473,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fire)).EndInit();
+            this.panelTimerConfig.ResumeLayout(false);
+            this.panelTimerConfig.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinutes)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -322,6 +505,19 @@
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Panel panelTimerConfig;
+        private System.Windows.Forms.RadioButton radioCountdown;
+        private System.Windows.Forms.RadioButton radioStopwatch;
+        private System.Windows.Forms.Label labelDuration;
+        private System.Windows.Forms.Button btn25;
+        private System.Windows.Forms.Button btn45;
+        private System.Windows.Forms.Button btn60;
+        private System.Windows.Forms.Button btn90;
+        private System.Windows.Forms.NumericUpDown numMinutes;
+        private System.Windows.Forms.Label labelMin;
+        private System.Windows.Forms.Label labelNote;
+        private System.Windows.Forms.Label labelTimer;
+        private System.Windows.Forms.Timer timer3;
     }
 }
 
